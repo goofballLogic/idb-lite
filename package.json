@@ -1,0 +1,25 @@
+{
+  "name": "idb-lite",
+  "version": "0.1.0",
+  "description": "Light weight indexed-db key value library matching the API of https://www.npmjs.com/package/idb-keyval\"",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/goofballLogic/idb-lite.git"
+  },
+  "keywords": [
+    "idb-keyval"
+  ],
+  "author": "goofballLogic",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/goofballLogic/idb-lite/issues"
+  },
+  "homepage": "https://github.com/goofballLogic/idb-lite#readme",
+  "devDependencies": {
+    "jest": "^24.8.0"
+  }
+}
