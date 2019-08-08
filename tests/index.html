@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="/index-browser.js"></script>
+    <script src="test.js"></script>
+    <style>
+        .message { display: -ms-flex; display: flex; }
+        .message .when { display: inline-block; width: 100px; margin-right: 10px; padding: 10px 0; }
+        .message .test-result { -ms-flex: 1 1 auto; flex: 1 1 auto; border-left: solid 5px white; padding: 10px; }
+        .message .test-result::before { float: right; margin: 0 10px; }
+        .message .test-fail { border-left-color: red; background-color: #FFDDDD; }
+        .message .test-fail::before { content: "FAIL" }
+        .message .test-pass { border-left-color: green; background-color: #DDFFDD; }
+        .message .test-pass::before { content: "OK" }
+        .message .test-error { display: block; white-space: pre; font-family: monospace; }
+    </style>
+</head>
+
+<body>
+    <h1>Test idb-lite API</h1>
+    <main>
+
+    </main>
+</body>
+
+</html>

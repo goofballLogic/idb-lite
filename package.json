@@ -3,8 +3,12 @@
   "version": "0.1.0",
   "description": "Light weight indexed-db key value library matching the API of https://www.npmjs.com/package/idb-keyval\"",
   "main": "index.js",
+  "module": "index.mjs",
   "scripts": {
-    "test": "jest"
+    "test": "npm run explain_tests && npm run launch_tests",
+    "explain_tests": "echo Please open a window to /tests/index.html from the server shown below",
+    "launch_tests": "http-server",
+    "build": "node build/wrap.js"
   },
   "repository": {
     "type": "git",
@@ -20,6 +24,6 @@
   },
   "homepage": "https://github.com/goofballLogic/idb-lite#readme",
   "devDependencies": {
-    "jest": "^24.8.0"
+    "http-server": "0.11.1"
   }
 }
