@@ -1,4 +1,4 @@
-module.exports={ set, get };
+module.exports={ set, get, closeAll, keys, del };
 
 var state = {};
 
@@ -33,7 +33,29 @@ function set(key, value) {
 function get(key) {
 
     var req;
-    function strategy(store) { req = store.get(key);  }
-    return execute("readonly", strategy).then(function () { console.log(req, key); return req.result; });
+    function strategy(store) { req = store.get(key); }
+    return execute("readonly", strategy).then(function () { return req.result; });
+
+}
+
+function keys() {
+
+    var req;
+    function strategy(store) { req = store.getAllKeys(); }
+    return execute("readonly", strategy).then(function () { return req.result; });
+
+}
+
+function closeAll() {
+    if (state.promisedb) {
+        state.promisedb.then(function (db) { db.close(); });
+        state.promisedb = null;
+    }
+}
+
+function del(key) {
+
+    function strategy(store) { store.delete(key); }
+    return execute("readwrite", strategy);
 
 }

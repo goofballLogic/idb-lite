@@ -7,8 +7,15 @@ window.addEventListener("DOMContentLoaded", function () {
     var resultTemplate = "<div class=\"TEST_CLASS\">CONTENT</div>";
     var errorTemplate = "<span class=\"test-error\">CONTENT</span>";
 
-    [
+    var idbLite = null;
 
+    runAll([
+
+        function beforeAll() {
+
+            idbLite = window.idbLite;
+
+        },
         test("there should be a global idbLite property exposed", function () {
 
             if (!window.idbLite) throw new Error("Missing window.idbLite property");
@@ -20,8 +27,8 @@ window.addEventListener("DOMContentLoaded", function () {
         test("set then get should work for a string", function () {
 
             var expected = "world";
-            return window.idbLite.set("hello", expected)
-                .then(function () { return window.idbLite.get("hello"); })
+            return idbLite.set("hello", expected)
+                .then(function () { return idbLite.get("hello"); })
                 .then(function (actual) { assertEqual(expected, actual); });
 
         }),
@@ -29,8 +36,8 @@ window.addEventListener("DOMContentLoaded", function () {
         test("set then get should work for an array", function () {
 
             var expected = [1, "a", null];
-            return window.idbLite.set("arr", expected)
-                .then(function () { return window.idbLite.get("arr"); })
+            return idbLite.set("arr", expected)
+                .then(function () { return idbLite.get("arr"); })
                 .then(function (actual) { assertDeepEqual(expected, actual); });
 
         }),
@@ -38,14 +45,51 @@ window.addEventListener("DOMContentLoaded", function () {
         test("set then get should work for an object", function () {
 
             var expected = { hello: { "there": "world", number: 42 } };
-            return window.idbLite.set("arr", expected)
-                .then(function () { return window.idbLite.get("arr"); })
+            return idbLite.set("obj", expected)
+                .then(function () { return idbLite.get("obj"); })
                 .then(function (actual) { assertDeepEqual(expected, actual); });
 
-        })
+        }),
 
-    ].reduce(function (prev, curr) { return prev.then(curr); }, Promise.resolve());
+        test("unset value should return undefined", function () {
 
+            return idbLite.get("notset")
+                .then(function (actual) { assertEqual(undefined, actual); });
+
+        }),
+
+        test("keys should return only the keys which have been set", function () {
+
+            return deleteDatabase("keyval-store")
+                .then(function () { return idbLite.set("hello", "world"); })
+                .then(function () { return idbLite.set("goodbye", "heaven"); })
+                .then(function () { return idbLite.keys(); })
+                .then(function (actual) { assertDeepEqual(["goodbye", "hello"], actual); });
+
+        }),
+
+        test("del should remove a key which has been set", function () {
+
+            return deleteDatabase("keyval-store")
+                .then(function () { return idbLite.set("hello", "world"); })
+                .then(function () { return idbLite.set("goodbye", "heaven"); })
+                .then(function () { return idbLite.del("hello"); })
+                .then(function () { return idbLite.keys(); })
+                .then(function (actual) { assertDeepEqual(["goodbye"], actual); });
+
+        }),
+
+    ]);
+
+    function runAll(tests) {
+
+        console.log("Running", tests.length, "tests");
+        tests
+            .reduce(function (prev, curr) { return prev.then(curr); }, Promise.resolve())
+            .then(function () { console.log("Tests complete"); })
+            .catch(console.error.bind(console));
+
+    }
     // helpers
     function assertEqual(expected, actual, expectedDescription, actualDescription) {
 
@@ -113,11 +157,26 @@ window.addEventListener("DOMContentLoaded", function () {
 
                 }
 
+            }).then(function () {
+
+                window.idbLite.closeAll();
+
             });
 
         };
 
     }
 
+    function deleteDatabase(dbname) {
+
+        return new Promise(function (resolve, reject) {
+
+            var req = window.indexedDB.deleteDatabase(dbname);
+            req.onerror = reject;
+            req.onsuccess = resolve;
+
+        });
+
+    }
 
 });
