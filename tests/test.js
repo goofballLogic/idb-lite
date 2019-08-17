@@ -79,6 +79,17 @@ window.addEventListener("DOMContentLoaded", function () {
 
         }),
 
+        test("clear should remove all keys which have been set", function () {
+
+            return deleteDatabase("keyval-store")
+                .then(function () { return idbLite.set("hello", "world"); })
+                .then(function () { return idbLite.set("goodbye", "heaven"); })
+                .then(function () { return idbLite.clear(); })
+                .then(function () { return idbLite.keys(); })
+                .then(function (actual) { assertDeepEqual([], actual); });
+
+        }),
+
     ]);
 
     function runAll(tests) {

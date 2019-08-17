@@ -5,7 +5,7 @@ const raw_filename = path.resolve(__dirname, "../src.js");
 console.log("Reading", raw_filename);
 const content = fs.readFileSync(raw_filename).toString();
 
-var exportKeys = [ "set", "get", "closeAll", "keys", "del" ];
+var exportKeys = [ "set", "get", "closeAll", "keys", "del", "clear" ];
 
 generate("../index.js", cjs);
 generate("../index.mjs", mjs);
