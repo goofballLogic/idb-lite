@@ -6,6 +6,7 @@ window.addEventListener("DOMContentLoaded", function () {
     var messageTemplate = "<div class=\"message\"><span class=\"when\">WHEN</span>CONTENT</div";
     var resultTemplate = "<div class=\"TEST_CLASS\">CONTENT</div>";
     var errorTemplate = "<span class=\"test-error\">CONTENT</span>";
+    var logTemplate = "<div class=\"log\">CONTENT</div>";
 
     var idbLite = null;
 
@@ -140,13 +141,27 @@ window.addEventListener("DOMContentLoaded", function () {
 
     ]);
 
+    function log(content) {
+
+        write(logTemplate.replace("CONTENT", content));
+        console.log(content);
+
+    }
+
+    function logError(err) {
+
+        write(logTemplate.replace("CONTENT", (err && err.stack) || err));
+        console.error ? console.error(err) : console.log(err);
+
+    }
+
     function runAll(tests) {
 
-        console.log("Running", tests.length - 1, "tests");
+        log("Running " + (tests.length - 1) + " tests");
         tests
             .reduce(function (prev, curr, index) { return prev.then(curr.bind(this, index)); }, Promise.resolve())
-            .then(function () { console.log("Tests complete"); })
-            .catch(console.error.bind(console));
+            .then(function () { log("Tests complete"); })
+            .catch(function (err) { logError(err); });
 
     }
     // helpers
