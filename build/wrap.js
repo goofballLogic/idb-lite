@@ -26,7 +26,9 @@ function iife(raw) {
 
 function mjs(raw) {
 
-    return raw.replace( /^function\s*set\(/m, "export $&");
+    return exportKeys.reduce((prev, key) => {
+        return prev.replace( new RegExp("^function\\s*" + key + "\\(", "m"), "export $&" );
+    }, raw);
 
 }
 

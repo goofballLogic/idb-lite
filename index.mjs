@@ -35,7 +35,7 @@ export function set(key, value, config) {
 
 }
 
-function get(key, config) {
+export function get(key, config) {
 
     var req;
     function strategy(store) { req = store.get(key); }
@@ -43,7 +43,7 @@ function get(key, config) {
 
 }
 
-function keys(config) {
+export function keys(config) {
 
     var req;
     function strategy(store) { req = store.getAllKeys(); }
@@ -51,25 +51,25 @@ function keys(config) {
 
 }
 
-function del(key, config) {
+export function del(key, config) {
 
     function strategy(store) { store.delete(key); }
     return execute("readwrite", config || storeConfig, strategy);
 
 }
 
-function clear(config) {
+export function clear(config) {
 
     function strategy(store) { store.clear(); }
     return execute("readwrite", config || storeConfig, strategy);
 
 }
 
-function Store(dbName, name) { return { dbName: dbName, name: name }; }
+export function Store(dbName, name) { return { dbName: dbName, name: name }; }
 
 // helper protocol
 
-function closeAll() {
+export function closeAll() {
     return Promise.all(Object.keys(dbs).map(function (key) {
         var promisedb = dbs[key];
         delete dbs[key];
