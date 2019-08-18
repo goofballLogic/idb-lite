@@ -95,14 +95,46 @@ window.addEventListener("DOMContentLoaded", function () {
             var customStore = new idbLite.Store("custom-store", "custom");
             var expectedCustomStoreValue = "custom store value";
             var expectedDefaultStoreValue = "default store value";
-            return deleteDatabase("keyval-store")
-                .then(function () { return deleteDatabase("custom-store"); })
-                .then(function () { return idbLite.set("hello", expectedDefaultStoreValue); })
+            return idbLite.set("hello", expectedDefaultStoreValue)
                 .then(function () { return idbLite.set("hello", expectedCustomStoreValue, customStore); })
                 .then(function () { return idbLite.get("hello"); })
                 .then(function (actual) { assertEqual(expectedDefaultStoreValue, actual); })
                 .then(function () { return idbLite.get("hello", customStore); })
                 .then(function (actual) { assertEqual(expectedCustomStoreValue, actual); });
+
+        }),
+
+        test("for a custom store, keys should return only keys in the custom store", function () {
+
+            var customStore = new idbLite.Store("custom-store", "custom");
+            return deleteDatabase("keyval-store")
+                .then(function () { return deleteDatabase("custom-store"); })
+                .then(function () { return idbLite.set("goodbye", "heaven"); })
+                .then(function () { return idbLite.set("hello", "world", customStore); })
+                .then(function () { return idbLite.keys(customStore); })
+                .then(function (actual) { assertDeepEqual(["hello"], actual); });
+
+        }),
+
+        test("for a custom store, del should remove a set key", function () {
+
+            var customStore = new idbLite.Store("custom-store", "custom");
+            return deleteDatabase("custom-store")
+                .then(function () { return idbLite.set("hello", "world", customStore); })
+                .then(function () { return idbLite.set("goodbye", "heaven", customStore); })
+                .then(function () { return idbLite.del("goodbye", customStore); })
+                .then(function () { return idbLite.keys(customStore); })
+                .then(function (actual) { assertDeepEqual(["hello"], actual); });
+        }),
+
+        test("for a custom store, clear should remove all keys which have been set", function () {
+
+            var customStore = new idbLite.Store("custom-store", "custom");
+            return idbLite.set("hello", "world", customStore)
+                .then(function () { return idbLite.set("goodbye", "heaven", customStore); })
+                .then(function () { return idbLite.clear(customStore); })
+                .then(function () { return idbLite.keys(customStore); })
+                .then(function (actual) { assertDeepEqual([], actual); });
 
         })
 
@@ -188,7 +220,7 @@ window.addEventListener("DOMContentLoaded", function () {
 
             }).then(function () {
 
-                window.idbLite.closeAll();
+                return window.idbLite.closeAll();
 
             });
 

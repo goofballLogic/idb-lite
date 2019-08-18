@@ -34,6 +34,7 @@ function execute(mode, config, strategy) {
 }
 
 // jaffacake protocol
+
 function set(key, value, config) {
 
     function strategy(store) { store.put(value, key); }
@@ -49,25 +50,25 @@ function get(key, config) {
 
 }
 
-function keys() {
+function keys(config) {
 
     var req;
     function strategy(store) { req = store.getAllKeys(); }
-    return execute("readonly", storeConfig, strategy).then(function () { return req.result; });
+    return execute("readonly", config || storeConfig, strategy).then(function () { return req.result; });
 
 }
 
-function del(key) {
+function del(key, config) {
 
     function strategy(store) { store.delete(key); }
-    return execute("readwrite", storeConfig, strategy);
+    return execute("readwrite", config || storeConfig, strategy);
 
 }
 
-function clear() {
+function clear(config) {
 
     function strategy(store) { store.clear(); }
-    return execute("readwrite", storeConfig, strategy);
+    return execute("readwrite", config || storeConfig, strategy);
 
 }
 
@@ -76,10 +77,9 @@ function Store(dbName, name) { return { dbName: dbName, name: name }; }
 // helper protocol
 
 function closeAll() {
-    var keys = Object.keys(dbs);
-    return Promise.all(keys.map(function (key) {
+    return Promise.all(Object.keys(dbs).map(function (key) {
         var promisedb = dbs[key];
-        dbs[key] = null;
+        delete dbs[key];
         return promisedb.then(function (db) { return db.close(); });
     }));
 }
