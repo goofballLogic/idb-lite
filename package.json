@@ -15,7 +15,8 @@
     "url": "git+https://github.com/goofballLogic/idb-lite.git"
   },
   "keywords": [
-    "idb-keyval"
+    "idb-keyval",
+    "indexedb"
   ],
   "author": "goofballLogic",
   "license": "MIT",
