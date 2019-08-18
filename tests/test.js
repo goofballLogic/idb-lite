@@ -16,6 +16,7 @@ window.addEventListener("DOMContentLoaded", function () {
             idbLite = window.idbLite;
 
         },
+
         test("there should be a global idbLite property exposed", function () {
 
             if (!window.idbLite) throw new Error("Missing window.idbLite property");
@@ -81,8 +82,7 @@ window.addEventListener("DOMContentLoaded", function () {
 
         test("clear should remove all keys which have been set", function () {
 
-            return deleteDatabase("keyval-store")
-                .then(function () { return idbLite.set("hello", "world"); })
+            return idbLite.set("hello", "world")
                 .then(function () { return idbLite.set("goodbye", "heaven"); })
                 .then(function () { return idbLite.clear(); })
                 .then(function () { return idbLite.keys(); })
@@ -90,13 +90,29 @@ window.addEventListener("DOMContentLoaded", function () {
 
         }),
 
+        test("set a key to both default and custom stores, get from both, ensure both values are correctly preserved", function () {
+
+            var customStore = new idbLite.Store("custom-store", "custom");
+            var expectedCustomStoreValue = "custom store value";
+            var expectedDefaultStoreValue = "default store value";
+            return deleteDatabase("keyval-store")
+                .then(function () { return deleteDatabase("custom-store"); })
+                .then(function () { return idbLite.set("hello", expectedDefaultStoreValue); })
+                .then(function () { return idbLite.set("hello", expectedCustomStoreValue, customStore); })
+                .then(function () { return idbLite.get("hello"); })
+                .then(function (actual) { assertEqual(expectedDefaultStoreValue, actual); })
+                .then(function () { return idbLite.get("hello", customStore); })
+                .then(function (actual) { assertEqual(expectedCustomStoreValue, actual); });
+
+        })
+
     ]);
 
     function runAll(tests) {
 
-        console.log("Running", tests.length, "tests");
+        console.log("Running", tests.length - 1, "tests");
         tests
-            .reduce(function (prev, curr) { return prev.then(curr); }, Promise.resolve())
+            .reduce(function (prev, curr, index) { return prev.then(curr.bind(this, index)); }, Promise.resolve())
             .then(function () { console.log("Tests complete"); })
             .catch(console.error.bind(console));
 
@@ -132,8 +148,9 @@ window.addEventListener("DOMContentLoaded", function () {
 
     function test(what, how) {
 
-        return function () {
+        return function (index) {
 
+            var start = Date.now();
             return new Promise(function (resolve) {
 
                 var maybeError = "";
@@ -162,8 +179,9 @@ window.addEventListener("DOMContentLoaded", function () {
 
                 function reportResult() {
 
+                    var duration = Date.now() - start;
                     var testClass = "test-result " + (maybeError ? "test-fail" : "test-pass");
-                    var testContent = what + maybeError;
+                    var testContent = index + ". " + what + " [" + duration + "ms] " + maybeError;
                     write(resultTemplate.replace("TEST_CLASS", testClass).replace("CONTENT", testContent));
 
                 }
