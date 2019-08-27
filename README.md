@@ -1,5 +1,7 @@
 # idb-lite
 
+*** This is an alpha version - not tested in older browsers yet ***
+
 Implementation of [@jakearchibald](https://github.com/jakearchibald)'s excellent idb-keyval API. See https://github.com/jakearchibald/idb-keyval for the original.
 
 ## Purpose
