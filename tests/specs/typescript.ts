@@ -1,5 +1,5 @@
-import { set, get, closeAll, keys, del, clear, Store } from "../dist/index.module.js";
-import { TestType, UtilitiesType, TestReturnType } from "./common";
+import { set, get, closeAll, keys, del, clear, Store } from "../../dist/index.module.js";
+import { TestType, UtilitiesType, TestReturnType } from "../shared/test";
 
 declare function idbTest(idbLite: any, buildTests: (test: TestType, utils: UtilitiesType) => Array<TestReturnType>): void;
 

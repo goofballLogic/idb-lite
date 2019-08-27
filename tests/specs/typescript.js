@@ -6,7 +6,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { set, get, closeAll, keys, del, clear, Store } from "../dist/index.module.js";
+import { set, get, closeAll, keys, del, clear, Store } from "../../dist/index.module.js";
 window.addEventListener("DOMContentLoaded", () => {
     idbTest({ closeAll }, (test, utils) => [
         test("set then get should work for a string", function () {
