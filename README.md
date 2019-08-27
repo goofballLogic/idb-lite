@@ -2,6 +2,8 @@
 
 # idb-lite
 
+[![size](http://img.badgesize.io/https://cdn.jsdelivr.net/npm/idb-lite/dist/index-iife.min.js?compression=gzip)]
+
 Implementation of [@jakearchibald](https://github.com/jakearchibald)'s excellent idb-keyval API. See https://github.com/jakearchibald/idb-keyval for the original.
 
 ## Purpose
