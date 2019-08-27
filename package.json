@@ -8,7 +8,10 @@
     "test": "npm run explain_tests && npm run launch_tests",
     "explain_tests": "echo Please open a window to /tests/index.html from the server shown below",
     "launch_tests": "http-server",
-    "build": "node build/wrap.js"
+    "build": "node build/wrap.js && node build/copy.js",
+    "build_watch": "fswatch src | xargs -n1 -I{} npm run build",
+    "build_ts_tests": "npx tsc",
+    "build_ts_tests_watch": "npx tsc --watch"
   },
   "repository": {
     "type": "git",
@@ -25,7 +28,9 @@
   },
   "homepage": "https://github.com/goofballLogic/idb-lite#readme",
   "devDependencies": {
-    "http-server": "0.11.1",
+    "@types/es6-promise": "^3.3.0",
+    "http-server": "^0.11.1",
+    "typescript": "^3.5.3",
     "uglify-js": "^3.6.0"
   }
 }
