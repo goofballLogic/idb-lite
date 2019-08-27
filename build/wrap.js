@@ -8,7 +8,7 @@ const content = fs.readFileSync(raw_filename).toString();
 
 var exportKeys = [ "set", "get", "closeAll", "keys", "del", "clear", "Store" ];
 
-generate("../dist/index.js", cjs);
+generate("../dist/index-cjs.js", cjs);
 generate("../dist/index.mjs", mjs);
 generate("../dist/index-iife.js", iife);
 generate("../dist/index-iife.min.js", miniife);
