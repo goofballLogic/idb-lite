@@ -4,16 +4,6 @@
 
 Implementation of [@jakearchibald](https://github.com/jakearchibald)'s excellent idb-keyval API. See https://github.com/jakearchibald/idb-keyval for the original.
 
-## Documentation
-
-As this is an implementation of a pre-defined API, please use the documentation found at https://github.com/jakearchibald/idb-keyval.
-
-### Extended functionality
-
-#### closeAll
-
-This function returns a promise to close all the database connections that have been opened in this session
-
 ## Purpose
 
 The intent of this version is to add some functionality not included in Jake's version, including:
@@ -70,3 +60,13 @@ N.B. You only need to "build" the typescript tests - all others are written by h
 Tests are deliberately manually executed by loading a browser page to ease with testing in legacy browsers.
 
 `npm run test` then navigate to `http://localhost:8080/tests`
+
+## Documentation
+
+As this is an implementation of a pre-defined API, please use the documentation found at https://github.com/jakearchibald/idb-keyval.
+
+### Extended functionality
+
+#### closeAll
+
+This function returns a promise to close all the database connections that have been opened in this session
