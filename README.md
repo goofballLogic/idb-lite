@@ -44,10 +44,17 @@ Some notes on the comparison:
 | index-iife.min.js | 1000 Bytes | 1.06 KB         |
 | index.mjs         | 1.77 KB    | 2.38 KB         |
 
+## Building
+
+`npm run build` or `npm run build_watch`
+
+## Building tests
+
+N.B. You only need to "build" the typescript tests - all others are written by hand.
+`npm run build_ts_tests` or `npm run build_ts_tests_watch`
+
 ## Running tests
 
 Tests are deliberately manually executed by loading a browser page to ease with testing in legacy browsers.
 
 `npm run test` then navigate to `http://localhost:8080/tests`
-
-##
