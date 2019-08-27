@@ -21,6 +21,7 @@ The intent of this version is to add some functionality not included in Jake's v
 1. Allows multiple stores within the same browser session
 2. Reuse connection to same underlying store (helps in older versions of IE)
 3. Allow explicit closing of database connections
+4. **TBD** Allow multiple stores per database (https://github.com/goofballLogic/idb-lite/issues/1)
 
 It also includes tests which can easily be executed in various different browsers
 
