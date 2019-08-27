@@ -1,6 +1,6 @@
-# idb-lite
+:sparkles: **PSA - this is an alpha version. Not tested in older browsers yet. File issues at will...** :sparkles:
 
- :sparkles: **This is an alpha version - not tested in older browsers yet** :sparkles:
+# idb-lite
 
 Implementation of [@jakearchibald](https://github.com/jakearchibald)'s excellent idb-keyval API. See https://github.com/jakearchibald/idb-keyval for the original.
 
